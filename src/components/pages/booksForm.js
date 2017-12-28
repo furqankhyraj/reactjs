@@ -6,7 +6,6 @@ import { postBooks, deleteBooks, getBooks, resetButton } from '../../actions/boo
 import { findDOMNode } from 'react-dom';
 import { MenuItem, InputGroup, DropdownButton, Image, Col, Row, Well, Panel, FormControl, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { ValidationError } from 'mongoose';
 class BooksForm extends React.Component {
     constructor() {
         super();

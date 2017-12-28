@@ -18,7 +18,10 @@ app.use(cookieParser());
 
 // API Start
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/bookshop');
+// MongoLab
+mongoose.connect('mongodb://furqan:furqan@ds133597.mlab.com:33597/bookshop');
+// Local DB
+// mongoose.connect('mongodb://localhost:27017/bookshop');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, '# MongoDB - connection error'));
@@ -37,7 +40,7 @@ app.post('/cart', function (req, res) {
   req.session.cart = cart;
   req.session.save(function (err) {
     if (err) {
-      throw err;
+      console.log('Cart POST Failed and error = '+err) ;
     }
     res.json(req.session.cart);
   })
@@ -58,7 +61,7 @@ app.post('/books', function (req, res) {
 
   Books.create(book, function (err, books) {
     if (err) {
-      throw err;
+      console.error('Book Create Failed'+err);
     }
     res.json(books);
   })
@@ -69,7 +72,7 @@ app.post('/books', function (req, res) {
 app.get('/books', function (req, res) {
   Books.find(function (err, books) {
     if (err) {
-      throw err;
+      console.log('books get failed err = '+err);
     }
     res.json(books)
   })
@@ -80,7 +83,7 @@ app.delete('/books/:_id', function (req, res) {
   var query = { _id: req.params._id };
   Books.remove(query, function (err, books) {
     if (err) {
-      throw err;
+      console.log('delete book failed,err = '+err);
     }
     res.json(books);
   })
@@ -106,7 +109,7 @@ app.put('/books/:_id', function (req, res) {
   var options = { new: true };
   Books.findOneAndUpdate(query, update, options, function (err, books) {
     if (err) {
-      throw err;
+      console.log('update book failed and err  = '+err);
     }
     res.json(books);
   })

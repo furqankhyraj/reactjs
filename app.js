@@ -1,3 +1,6 @@
+require('babel-core/register')({
+  "presets": ["es2015", "react", "stage-1"]
+});
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,7 +9,8 @@ var logger = require('morgan');
 // var bodyParser = require('body-parser');
 
 var httpProxy = require('http-proxy');
-
+// Add requestHandler for serverside
+var requestHandler = require('./requestHandler.js');
 // var index = require('./routes/index');
 // var users = require('./routes/users');
 
@@ -33,78 +37,15 @@ app.use(logger('dev'));
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('view engine', 'ejs');
+app.use(requestHandler);
 
-// API Start
-// var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost:27017/bookshop');
-// var Books = require('./models/books.js');
-
-// // Post Books
-// app.post('/books', function (req, res) {
-//   var book = req.body;
-
-//   Books.create(book, function (err, books) {
-//     if (err) {
-//       throw err;
-//     }
-//     res.json(books);
-//   })
-// })
-
-// // Get All Books
-// //----->>>> GET BOOKS <<<---------
-// app.get('/books', function (req, res) {
-//   Books.find(function (err, books) {
-//     if (err) {
-//       throw err;
-//     }
-//     res.json(books)
-//   })
+// Commneted for serverside start
+// app.get('*', function (req, res) {
+//   res.sendFile(path.resolve(__dirname,
+//     'public', 'index.html'))
 // });
-
-// //---->>> DELETE BOOKS <<<------
-// app.delete('/books/:_id', function (req, res) {
-//   var query = { _id: req.params._id };
-//   Books.remove(query, function (err, books) {
-//     if (err) {
-//       throw err;
-//     }
-//     res.json(books);
-//   })
-// });
-
-// // Update Books
-// app.put('/books/:_id', function (req, res) {
-//   console.log('in udpate book API');
-//   var book = req.body;
-//   var query = req.params._id;
-//   console.log('query = ',query);
-//   // if the field doesn't exist $set will set a new field
-//   var update = {
-//     '$set': {
-//       title: book.title,
-//       description: book.description,
-//       image: book.image,
-//       price: book.price
-//     }
-//   };
-//   console.log('update = ',update);
-//   // When true returns the updated document
-//   var options = { new: true };
-//   Books.findOneAndUpdate(query, update, options, function (err, books) {
-//     if (err) {
-//       throw err;
-//     }
-//     res.json(books);
-//   })
-// })
-
-// API End
-
-app.get('*', function (req, res) {
-  res.sendFile(path.resolve(__dirname,
-    'public', 'index.html'))
-});
+// Commneted for serverside end
 // app.use('/', index);
 // app.use('/users', users);
 
